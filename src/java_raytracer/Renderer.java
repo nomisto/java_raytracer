@@ -124,16 +124,28 @@ public class Renderer {
 				ir = ir + lightcolor.getX() * phong.getX();
 				ig = ig + lightcolor.getY() * phong.getX();
 				ib = ib + lightcolor.getZ() * phong.getX();
-			} else if(l instanceof ParallelLight){
-				Vec3 li = ((ParallelLight) l).getDirection();
-				li = li.normalize();
-				li = li.negate();
-				li = li.normalize();
+			} else {
+				
+				Vec3 li = null;
+				Vec3 r;
+				Vec3 v;
+				
+				if(l instanceof ParallelLight){
+					li = ((ParallelLight) l).getDirection();
+					li = li.normalize();
+					li = li.negate();
+					li = li.normalize();
+				} else if(l instanceof PointLight) {
+					li = ((PointLight) l).getPosition();
+					li = li.subtractedWith(intersecP);
+					li = li.normalize();
+				}
+				
 				double ldotn = li.dotproductWith(normal);
-				Vec3 r = normal.multiplyWithScalar(2*ldotn);
+				r = normal.multiplyWithScalar(2*ldotn);
 				r = r.subtractedWith(li);
 				r = r.normalize();
-				Vec3 v = ray[1];
+				v = ray[1];
 				v = v.normalize();
 				v = v.negate();
 				v = v.normalize();
@@ -147,9 +159,8 @@ public class Renderer {
 					ib = ib + lightcolor.getZ() * phong.getZ() * Math.max(Math.pow(r.dotproductWith(v),phong.getW()), 0);
 				}
 				
-			} else if(l instanceof PointLight){
-				//TBD
 			}
+				
 			Vec3 intensity = new Vec3(ir,ig,ib);
 			Vec3 color = materialColor.multiplyWithScalarVector(intensity);
 		    shadedColor = shadedColor.addWith(color);

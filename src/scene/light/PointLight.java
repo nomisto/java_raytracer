@@ -11,4 +11,9 @@ public class PointLight extends Light{
 		this.position = position;
 	}
 
+	public Vec3 getPosition() {
+		return position;
+	}
+
+	
 }
