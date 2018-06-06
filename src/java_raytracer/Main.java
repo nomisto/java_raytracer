@@ -18,6 +18,5 @@ public class Main {
 		Renderer r = new Renderer(s);
 		r.render();
 		
-		
 	}
 }

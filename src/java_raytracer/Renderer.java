@@ -30,7 +30,6 @@ public class Renderer {
 	
 	public void render(){
 		ArrayList<Surface> surfaceList = s.getSurfaces();
-		System.out.println(surfaceList.size());
 		for (int y=0; y<height; y++){
 			for(int x=0; x<width; x++){
 				Vec3[] ray = s.getCamera().constructEyeRay(x,y);
